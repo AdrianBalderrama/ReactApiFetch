@@ -22,23 +22,32 @@ class App extends Component {
   }
 
 
+//index as a key is bad practice
 
+
+
+ 
 
   render () {
+
+
+    if(this.state.loading || !this.state.dogUrl){
+      return <div>loading...</div>
+    }
+
+    
+    const doggos = <div> 
+      {this.state.dogUrl.map((dogUrl,index)=>(
+      <div key = {index}><img src= {dogUrl}/> </div>
+      ))} </div>
+
+    
+
     return (
      <div>
-       <div>
-       {this.state.loading || !this.state.dogUrl ? (
-        <div>loading...</div>
-       ) : ( 
-        <div> 
-          <img src= {this.state.dogUrl[0]}/>
-          <img src= {this.state.dogUrl[1]}/>
-          <img src= {this.state.dogUrl[2]}/>
-        </div>
-       )}
-       </div>
-     
+      
+       {doggos}
+          
 
      </div>
    
