@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import React, {Component} from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+class App extends Component {
+
+  state= {
+    loading: true,
+    dogUrl: null,
+
+  }
+
+
+  async componentDidMount(){
+    const url= 'https://dog.ceo/api/breeds/image/random/3';
+    const response=  await fetch(url);
+    const data= await response.json();
+    console.log(data);
+    this.setState({dogUrl: data.message, loading: false})
+    console.log(this.state.dogUrl);
+  }
+
+
+
+
+  render () {
+    return (
+     <div>
+       <div>
+       {this.state.loading || !this.state.dogUrl ? (
+        <div>loading...</div>
+       ) : ( 
+        <div> 
+          <img src= {this.state.dogUrl[0]}/>
+          <img src= {this.state.dogUrl[1]}/>
+          <img src= {this.state.dogUrl[2]}/>
+        </div>
+       )}
+       </div>
+     
+
+     </div>
+   
+
+    );
+  }
 }
 
 export default App;
