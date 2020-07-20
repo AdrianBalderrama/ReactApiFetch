@@ -10,7 +10,7 @@ class App extends Component {
       selectValue: 'chihuahua',
       loading: true,
       dogUrl: null,
-       
+       news: [],
     };
 
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
@@ -33,9 +33,11 @@ if(this.state.selectValue){
     console.log("Component Mounted")
     
     this.fetchApi();
+
+    //News api testing
+    this.fetchNews();
     
-    
-   
+   // does not work check stuff  console.log(this.state.news.articles[0].content);
   }
 
 
@@ -56,6 +58,7 @@ handleDropdownChange(e) {
     console.log("After fetching ree"+this.state.selectValue);
     console.log(this.state.selectValue);
     this.fetchApi();
+    
   });
   
   
@@ -79,10 +82,30 @@ handleDropdownChange(e) {
     //console.log(urlS);
     //console.log(selectValueF);
     console.log(url);
-    
+     
 
  }
 
+ fetchNews = async () => {
+ 
+  const newsUrl=  'https://newsapi.org/v2/top-headlines?country=mx&apiKey=a92ff2b8cb314667a0262fca609fe4c5';
+  console.log('This is the b4 the call'+newsUrl)
+  const  urlF= await (newsUrl);
+  const responseNews=  await fetch(urlF);
+  const news= await responseNews.json();
+ 
+  
+  
+  this.setState({news: news.articles})
+  //console.log( await this.state.selectValue);
+  //console.log(urlS);
+  //console.log(selectValueF);
+  console.log( this.state.news);
+  console.log("trying read articles"+this.state.news);
+
+}
+
+ 
 
   render () {
     
@@ -93,7 +116,7 @@ handleDropdownChange(e) {
     console.log(selectValueF);
   
 
-    if(this.state.loading || !this.state.dogUrl){
+    if(this.state.loading || !this.state.dogUrl ){
       return <div>loading...</div>
     }
 
@@ -103,28 +126,12 @@ handleDropdownChange(e) {
       <div key = {index}><img src= {dogUrl}/> </div>
       ))} </div>
 
+      const news = <div> 
+      {this.state.news.map((news,index)=>(
+      <div key = {index}style = {{marginLeft:'auto', marginRight:'auto'}} ><a href={news.url}  ><img  style = {{width:720, height:480, marginLeft:'auto', marginRight:'auto'}} src= {news.urlToImage}/></a><div>{news.description} {news.title} </div></div>
+      ))} </div>
 
-
-       switch (this.state.selectValue) {
-         case 'affenpinsche':
-         
-           break;
-           case 'beagle':
-            
-            break;
-            case 'chihuahua':
-              
-              break;
-              case 'shiba':
-                
-                break;
-                case 'shihtzu':
-                  
-                  break;
-            
-         default:
-           break;
-       }
+    
        /*
       if(this.state.selectValue){
 
@@ -143,7 +150,7 @@ handleDropdownChange(e) {
      <div>
       
        {doggos}
-
+        {news}
 
           <div>
           <div>
@@ -158,9 +165,10 @@ handleDropdownChange(e) {
           </div>
 
           <div>Selected value is : {this.state.selectValue}</div>
+           
         </div>
      </div>
-
+      
 
    
 
