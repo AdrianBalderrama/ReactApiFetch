@@ -44,9 +44,23 @@ if(this.state.selectValue){
 
 
  
+ 
+
+
+
 handleDropdownChange(e) {
   this.setState({ selectValue: e.target.value }, this.handleSubmit);
+  console.log("On change b4 fetch"+this.state.selectValue);
   
+  this.setState({selectValue: e.target.value}, () => {
+    console.log("After fetching ree"+this.state.selectValue);
+    console.log(this.state.selectValue);
+    this.fetchApi();
+  });
+  
+  
+
+ 
 }
 
 
@@ -71,6 +85,9 @@ handleDropdownChange(e) {
 
 
   render () {
+    
+     
+
 
     const selectValueF =  this.state.selectValue;
     console.log(selectValueF);
